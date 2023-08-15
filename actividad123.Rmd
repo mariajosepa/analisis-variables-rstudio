@@ -1,0 +1,153 @@
+---
+title: "Análisis de datos del sueño"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    css: styles.css
+    
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(readxl)
+library(summarytools)
+SleepData <- read_excel("SleepData.xlsx")
+View(SleepData)
+```
+
+Cualitativas
+=====================
+Column {data-width=570}
+-----------------------------------------------------------------------
+
+### Categoría BMI
+
+```{r, echo=FALSE}
+
+
+ev=c(195,  21, 10, 148)
+names(ev)=c("Normal", "Normal Weight", "Obese","Overweight")
+
+barplot(ev, col=c("#7dbd00","#dcf600","#659cef","#ff5b00"), main = "Categoría BMI")
+
+
+```
+
+Column {data-width=430}
+-----------------------------------------------------------------------
+
+### Ocupación
+
+```{r,echo=FALSE}
+
+a=rep("Accountant", 37)
+b=rep("Doctor", 71)
+c=rep("Engineer",63)
+d=rep("Lawyer",47)
+e=rep("Manager",1)
+f=rep("Nurse",73)
+g=rep("Sales Representative",2)
+h=rep("Salesperson",32)
+i=rep("Scientist",4)
+j=rep("Software Engineer",4)
+k=rep("Teacher",40)
+
+
+data=c(a,b,c,d,e,f,g,h,i,j,k)
+t=table(SleepData$Occupation)
+lbs=c("Accountant","Doctor","Engineer","Lawyer","Manager","Nurse","Sales Representative","Salesperson","Scientist","Software Engineer","Teacher")
+pct=round(t/sum(t)*100)
+labs=paste(lbs, pct)
+labs=paste(labs, "%", sep = " ") 
+pie(t, labels=labs, main="Ocupación")
+
+```
+
+### Sexo
+
+```{r,echo=FALSE}
+
+
+
+a=rep("Hombre", 189)
+b=rep("Mujer", 185)
+
+data=c(a,b)
+t=table(data)
+
+
+lbs=c("Hombre", "Mujer")
+pct=round(t/sum(t)*100)
+labs=paste(lbs, pct)
+labs=paste(labs, "%") 
+pie(t, labels=labs, main="Género")
+
+
+```
+
+Column {data-width=50} 
+-----------------------------------------------------------------------
+
+### Participantes totales
+```{r}
+
+valueBox(374, icon = "fa-comments")
+```
+
+
+### Ocupación más popular 
+
+```{r}
+
+valueBox("Enfermero", icon = "fa-comments")
+```
+
+### Categoría más popular
+```{r}
+
+valueBox("Normal", icon = "fa-comments")
+```
+
+Cuantitativas
+=====================
+Column {data-width=570}
+-----------------------------------------------------------------------
+
+### Ritmo Cardíaco
+
+```{r}
+h1=hist(SleepData$HeartRate, 
+        main = "Ritmo Cardiaco", 
+        xlab = "Latidos por Minuto", ylab="frecuencias absolutas", 
+        labels=TRUE, 
+        col="#0d3b66",
+        ylim = c(0,100))
+```
+
+Column {data-width=570}
+-----------------------------------------------------------------------
+### Horas de sueño
+
+```{r}
+boxplot(as.integer(SleepData$SleepDuration), main="Horas de sueño",
+        col="#f4d35e",
+        las=1)
+abline(h=3, col="#f96738", lwd=3)
+```
+
+### Nivel de estrés
+
+```{r}
+nf=c(SleepData$StressLevel)
+plot(density(nf))
+
+```
+
+
+
+
+
+
+
+
