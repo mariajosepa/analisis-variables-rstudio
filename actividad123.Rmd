@@ -23,6 +23,7 @@ Column {data-width=570}
 
 ### Categoría BMI
 
+
 ```{r, echo=FALSE}
 
 
@@ -33,6 +34,21 @@ barplot(ev, col=c("#7dbd00","#dcf600","#659cef","#ff5b00"), main = "Categoría B
 
 
 ```
+
+### Observaciones
+
+> **Frecuencia:** "Normal" es la categoría más frecuente con 195 pacientes, mientras que "Obese" es la menos común con 10 pacientes.
+
+> **Porcentaje BMI:** El 57.75% de los pacientes tienen una categoría de BMI de "Normal" o "Normal Weight", y el 60.43% tienen una categoría de "Normal", "Normal Weight" o "Obese".
+
+> **Porcentaje Ocupaciones**: El 45.72% de los pacientes son "Doctor" o "Engineer", y el 78.07% son "Doctor", "Engineer" o "Nurse".
+
+> **Porcentaje Género**: La categoría del género está casi exactamente dividida en la cantidad de hombres y la cantidad de mujeres.
+
+>
+
+
+
 
 Column {data-width=430}
 -----------------------------------------------------------------------
@@ -61,6 +77,9 @@ pct=round(t/sum(t)*100)
 labs=paste(lbs, pct)
 labs=paste(labs, "%", sep = " ") 
 pie(t, labels=labs, main="Ocupación")
+
+
+
 
 ```
 
@@ -92,7 +111,7 @@ Column {data-width=50}
 ### Participantes totales
 ```{r}
 
-valueBox(374, icon = "fa-comments")
+valueBox(374, icon = "fa-person")
 ```
 
 
@@ -100,14 +119,43 @@ valueBox(374, icon = "fa-comments")
 
 ```{r}
 
-valueBox("Enfermero", icon = "fa-comments")
+valueBox("Enfermero", icon = "fa-stethoscope")
 ```
 
-### Categoría más popular
+### Categoría BMI más popular
 ```{r}
 
-valueBox("Normal", icon = "fa-comments")
+valueBox("Normal", icon = "fa-fire")
 ```
+
+
+### PORCENTAJE NORMAL
+
+```{r}
+
+gauge(52, min = 0, max = 100, symbol = '%', gaugeSectors(
+  success = c(80, 100), warning = c(40, 79), danger = c(0, 39)
+))
+```
+
+### PORCENTAJE OBESO 
+
+```{r}
+
+gauge(2.6, min = 0, max = 100, symbol = '%', gaugeSectors(
+  success = c(80, 100), warning = c(40, 79), danger = c(0, 39)
+))
+```
+
+### PORCENTAJE SOBREPESO
+
+```{r}
+
+gauge(39, min = 0, max = 100, symbol = '%', gaugeSectors(
+  success = c(80, 100), warning = c(40, 79), danger = c(0, 39)
+))
+```
+
 
 Cuantitativas
 =====================
@@ -125,23 +173,53 @@ h1=hist(SleepData$HeartRate,
         ylim = c(0,100))
 ```
 
+### Observaciones
+
+> **Ritmo cardîaco:** El valor promedio del ritmo cardíaco es 70.17 latidos por minuto y el valor máximo registrado de ritmo cardíaco es 86.00 BPM. En la gráfica se puede observar una asimetría positiva, indicando que hay una mayor concentración de pacientes que evidencian ritmos cardiacos más bajos y siendo los rangos más altos considerados datos atípicos.
+
+> **Edad vs. Horas de sueño:** La duración promedio del sueño es de aproximadamente 7.13 horas.  La duración máxima registrada del sueño es de 8.50 horas. En la gráfica se pueden obsservar grupos de concentración más pronunciada. En general, los rangos de edad mas bajos (25-35), evidencian tiempos de sueño más reducidos, mientras que los grupos de edad más altos (50-60), muestran mayores horas de sueño en promedio, esto puede estar relacionado con los resultados de la gráfica de Edad vs. Nivel de Estrés.
+
+> **Edad vs. Nivel de estrés** La medida de estrés promedio es de 5.39 en una escala del 1-10. El nivel de estrés más bajo es de 3. En general, hay una mayor concentración de bajos niveles de estrés en los grupos altos de edad (50-60). 
+
+>
+
 Column {data-width=570}
 -----------------------------------------------------------------------
 ### Horas de sueño
 
 ```{r}
-boxplot(as.integer(SleepData$SleepDuration), main="Horas de sueño",
-        col="#f4d35e",
-        las=1)
-abline(h=3, col="#f96738", lwd=3)
+plot(SleepData$Age,SleepData$SleepDuration, main = "Edad vs Horas de Sueño", xlab = "Edad", ylab = "Horas de sueño", col = "#447270", pch = 19)
 ```
 
 ### Nivel de estrés
 
 ```{r}
-nf=c(SleepData$StressLevel)
-plot(density(nf))
+plot(SleepData$Age,SleepData$StressLevel, main = "Edad vs Nivel de estrés (1-10)", xlab = "Edad", ylab = "Horas de sueño", col = "#447270", pch = 15)
 
+```
+
+
+Row {data-width=20} 
+-----------------------------------------------------------------------
+
+### Nivel promedio de estrés
+```{r}
+
+valueBox(5.39, icon = "fa-person")
+```
+
+
+### Ritmo cardíaco más alto 
+
+```{r}
+
+valueBox("86 BPM", icon = "fa-stethoscope")
+```
+
+### Horas de sueño promedio
+```{r}
+
+valueBox(7.13, icon = "fa-bed")
 ```
 
 
